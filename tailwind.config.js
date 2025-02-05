@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // tailwind.config.js
 export const content = [
   "./src/**/*.{html,ts}",
@@ -7,7 +6,6 @@ export const theme = {
   extend: {},
 };
 export const plugins = [require('tailwindcss-primeui')];
-=======
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -26,5 +24,3 @@ module.exports = {
   },
   plugins: [],
 }
-
->>>>>>> origin/develop
