@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavMainComponent } from "./components/feature-navbar/nav-main/nav-main.component";
+import { PrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +11,16 @@ import { NavMainComponent } from "./components/feature-navbar/nav-main/nav-main.
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'y-hive-front';
-}
+    constructor(private primeng: PrimeNG) {
+        this.primeng.theme.set({
+            preset: Aura,
+                options: {
+                    cssLayer: {
+                        name: 'primeng',
+                        order: 'tailwind-base, primeng, tailwind-utilities'
+                    }
+                }
+            })
+        }
+      }
+

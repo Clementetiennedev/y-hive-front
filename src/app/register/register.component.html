@@ -1,0 +1,100 @@
+<p-toast position="bottom-right" key="br"></p-toast>
+<div class="flex justify-center items-center h-screen">
+  <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Créer un compte</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <!-- First Name -->
+      <div class="mb-4">
+        <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
+        <input
+          id="firstName"
+          type="text"
+          formControlName="firstName"
+          class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Prénom"
+        />
+        <p *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
+          class="text-red-500 text-sm mt-1">
+          Le prénom est requis.
+        </p>
+      </div>
+
+      <!-- Last Name -->
+      <div class="mb-4">
+        <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
+        <input
+          id="lastName"
+          type="text"
+          formControlName="lastName"
+          class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Nom"
+        />
+        <p *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
+          class="text-red-500 text-sm mt-1">
+          Le nom est requis.
+        </p>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-4">
+        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Email"
+        />
+        <p *ngIf="registerForm.get('email')?.hasError('invalidEmail') && registerForm.get('email')?.touched"
+          class="text-red-500 text-sm mt-1">
+          L'email doit être valide (ex: a&#64;a.fr).
+        </p>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+        <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Mot de passe"
+        />
+        <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+          class="text-red-500 text-sm mt-1">
+          Le mot de passe doit contenir au moins 6 caractères.
+        </p>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="mb-6">
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          formControlName="confirmPassword"
+          class="mt-2 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          placeholder="Confirmer le mot de passe"
+        />
+        <p *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched"
+          class="text-red-500 text-sm mt-1">
+          Les mots de passe ne correspondent pas.
+        </p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex flex-col gap-4">
+        <button
+          type="submit"
+          pButton
+          [disabled]="registerForm.invalid"
+          class="w-full cursor-pointer bg-yellow-600 text-white p-3 rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-blue-400 border-none">
+          Créer un compte
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
