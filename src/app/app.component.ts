@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavMainComponent } from "./components/feature-navbar/nav-main/nav-main.component";
+import { NavMainComponent } from "./components/nav-main/nav-main.component";
 import { PrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
 
