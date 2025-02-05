@@ -11,7 +11,6 @@ import "primeicons/primeicons.css";
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ToastModule, ButtonModule, RippleModule],
   providers: [MessageService]
 })
@@ -36,9 +35,9 @@ export class LoginComponent {
     if (this.signInForm.valid) {
       const formValues = this.signInForm.value;
       console.log('Form Values:', formValues);
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes désormais connecté', key: 'br', life: 3000});
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes désormais connecté', key: 'br', life: 3000, styleClass: 'bg-green-400'});
     } else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill out the form correctly', key: 'br', life: 3000});
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill out the form correctly', key: 'br', life: 3000, styleClass: 'bg-red-400'});
     }
   }
 }

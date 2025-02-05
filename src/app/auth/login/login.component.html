@@ -1,5 +1,5 @@
 <p-toast position="bottom-right" key="br"></p-toast>
-<div class="flex justify-center items-center h-screen">
+<div class="flex justify-center bg-yellow-50 items-center h-screen">
   <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
     <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Se connecter</h2>
 
@@ -38,18 +38,18 @@
 
       <!-- Buttons -->
       <div class="flex flex-col gap-4">
-        <button pButton type="submit" [disabled]="signInForm.invalid" class="w-full cursor-pointer bg-yellow-600 text-white p-3 rounded-lg hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-blue-400 border-none">
+        <button pButton type="submit" [disabled]="signInForm.invalid" class="w-full cursor-pointer bg-primaryyellow text-white p-3 rounded-lg hover:bg-primaryorange focus:outline-none focus:ring-2 focus:ring-blue-400 border-none">
           Se connecter
         </button>
         <!-- Forgot Password Link -->
         <div class="text-center">
-          <a href="#" class="text-sm text-blue-600 hover:underline">Mot de passe oublié?</a>
+          <a href="#" class="text-sm text-primarybrown hover:underline">Mot de passe oublié?</a>
         </div>
 
         <!-- Create Account Link -->
         <div class="text-center mt-4">
-          <span class="text-sm text-gray-600">Vous n'avez pas de compte? </span>
-          <a href="/register" class="text-sm text-blue-600 hover:underline">Créer un compte</a>
+          <span class="text-sm text-black">Vous n'avez pas de compte? </span>
+          <a href="/register" class="text-sm text-primarybrown hover:underline">Créer un compte</a>
         </div>
       </div>
     </form>
