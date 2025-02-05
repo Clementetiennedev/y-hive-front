@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { HomePageComponent } from './components/feature-home-page/home-page/home-page.component';
+import { LandingPageComponent } from './components/feature-home-page/landing-page/landing-page.component';
 
 export const routes: Routes = [
     // Route example
-    //{ path: 'home', component: nomComponent},
-    { path: '', component: HomePageComponent}, 
-    { path: 'home', component: HomePageComponent}, 
+    //{ path: 'landing', component: nomComponent},
+    { path: '', component: LandingPageComponent}, 
+    { path: 'landing', component: LandingPageComponent}, 
 ];

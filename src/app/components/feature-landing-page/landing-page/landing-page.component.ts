@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-home-page',
+  selector: 'app-landing-page',
   imports: [],
-  templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  templateUrl: './landing-page.component.html',
+  styleUrl: './landing-page.component.scss'
 })
-export class HomePageComponent {
+export class LandingPageComponent {
   isMenuOpen = false;
 
    features = [
