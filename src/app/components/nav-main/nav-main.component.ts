@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-nav-main',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './nav-main.component.html',
   styleUrls: ['./nav-main.component.scss']
 })
@@ -19,6 +19,9 @@ export class NavMainComponent {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
+  goToHome() {
+    this.router.navigate(['/']);
+  }
   redirectToLogin() {
     this.router.navigate(['/login']);
   }
