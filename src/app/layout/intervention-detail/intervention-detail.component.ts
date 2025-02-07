@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { InterventionService } from '../invervention-detail.service';
+import { InterventionService } from '../../services/invervention.service';
 import { CommonModule } from '@angular/common';
 
 interface Intervention {
@@ -23,8 +23,8 @@ export class InterventionDetailComponent implements OnInit {
     error: string = '';
 
     constructor(
-        private route: ActivatedRoute,
-        private interventionService: InterventionService
+        private readonly route: ActivatedRoute,
+        private readonly interventionService: InterventionService
     ) { }
 
     ngOnInit() {

@@ -12,7 +12,7 @@ export class NavMainComponent {
   // Variable pour savoir si le menu est ouvert ou fermé
   isDropdownOpen = false;
 
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   // Méthode pour alterner l'état du dropdown
   toggleDropdown() {
