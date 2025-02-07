@@ -1,0 +1,15 @@
+<div class="h-full bg-yellow-50">
+    <div *ngIf="loading" class="text-center text-gray-500">Chargement...</div>
+    <div *ngIf="error" class="text-center text-red-500">{{ error }}</div>
+
+    <div *ngIf="!loading && !error" class="max-w-2xl mx-auto pt-6 p-6 bg-white rounded-lg shadow-md">
+        <h2 class="text-3xl font-bold text-gray-800">{{ intervention.name }}</h2>
+        <p class="text-gray-500 mt-2">📅 Le: {{ intervention.date | date:'dd/MM/yyyy à HH\'h\'mm' }}</p>
+        <p class="text-gray-500 mt-2">📍 Localisation: {{ intervention.localisation }}</p>
+        <p class="text-gray-700 mt-4">{{ intervention.description }}</p>
+
+        <div class="mt-6 text-right">
+            <a href="/intervention" class="text-yellow-500">⬅ Retour aux interventions</a>
+        </div>
+    </div>
+</div>
