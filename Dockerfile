@@ -14,6 +14,6 @@ RUN ng build --configuration=production
 
 FROM nginx:latest
 
-COPY --from=build app/dist/aftas-angular /usr/share/nginx/html
+COPY --from=build app/dist/y-hive-front /usr/share/nginx/html
 
 EXPOSE 80
