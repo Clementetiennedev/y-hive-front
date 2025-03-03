@@ -11,7 +11,7 @@ import Aura from '@primeng/themes/aura';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-    constructor(private primeng: PrimeNG) {
+    constructor(private readonly primeng: PrimeNG) {
         this.primeng.theme.set({
             preset: Aura,
                 options: {
