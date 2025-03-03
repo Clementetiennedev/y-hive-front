@@ -1,29 +1,25 @@
-# Utilise une image Node.js pour construire l'application Angular
+# Étape 1 : Build de l'application Angular
 FROM node:20 AS build
 
-# Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
-# Copier les fichiers package.json et package-lock.json
 COPY package.json package-lock.json ./
-
-# Installer les dépendances
 RUN npm install
 
-# Copier le reste du code source
 COPY . .
+RUN npm run build:ssr
 
-# Construire l'application Angular
-RUN npm run build --prod
+# Étape 2 : Exécution du serveur Angular
+FROM node:20 AS runtime
 
-# Utiliser une image Nginx pour servir l'application
-FROM nginx:alpine
+WORKDIR /app
 
-# Copier les fichiers construits depuis l'étape précédente
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/package.json /app/package-lock.json ./
+RUN npm install --omit=dev  # Installer uniquement les dépendances de production
 
-# Exposer le port 3000
+COPY --from=build /app/dist /app/dist
+COPY --from=build /app/server.js /app/server.js
+
 EXPOSE 3000
 
-# Démarrer Nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]
