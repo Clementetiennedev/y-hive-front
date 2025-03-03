@@ -1,32 +1,30 @@
+# Utilisation de l'image officielle Node.js
 FROM node:23
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-  fonts-liberation \
-  libasound2 \
-  libatk-bridge2.0-0 \
-  libatk1.0-0 \
-  libcups2 \
-  libdrm2 \
-  libgbm1 \
-  libgtk-3-0 \
-  libnspr4 \
-  libnss3 \
-  libx11-xcb1 \
-  libxcomposite1 \
-  libxdamage1 \
-  libxrandr2 \
-  xdg-utils \
-  libu2f-udev \
-  libxshmfence1 \
-  libglu1-mesa \
-  chromium \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
-
+# Définition du répertoire de travail
 WORKDIR /app
+
+# Copier uniquement les fichiers nécessaires pour améliorer le cache Docker
+COPY package.json package-lock.json ./
+
+# Installation des dépendances
+RUN npm install --production
+
+# Copier tout le reste des fichiers
 COPY . .
-RUN npm install
+
+# Installation de TypeScript globalement
+RUN npm install -g typescript
+
+# Compilation du TypeScript en JavaScript
+RUN npx tsc
+
+# Définition de la variable d'environnement pour Puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
+
+# Exposer le port 3000
 EXPOSE 3000
-CMD [ "node", "server.ts" ]
+
+# Commande pour démarrer l'application
+CMD ["node", "dist/server.js"]
