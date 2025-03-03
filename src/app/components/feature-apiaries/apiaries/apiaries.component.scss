@@ -1,0 +1,31 @@
+.create-button{
+  background-color: red;
+}
+.ruchers-wrapper {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+.ruchers-container{
+  border: solid 2px black;
+  padding: 3em;
+  border-radius: 5%;
+  .rucher-title{
+    color: yellow;
+  }
+  .rucher-name{
+
+  }
+}
+.rucher-card{
+background-color: pink;
+}
+.update{
+  border: solid 1px blue;
+}
+.add{
+  border: solid 1px green;
+}
+.delete{
+  border: solid 1px red;
+}

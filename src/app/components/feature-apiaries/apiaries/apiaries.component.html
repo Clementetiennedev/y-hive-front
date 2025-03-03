@@ -1,0 +1,11 @@
+<button class="create-button" (click)="ajouterRucher()">Créer un rucher</button>
+<div class="ruchers-wrapper">
+    <div *ngFor="let rucher of ruchers" class="ruchers-container">
+      <h3 class="rucher-title">{{ rucher.nom }}</h3>
+
+      <!-- Affichage des ruches dans chaque rucher -->
+      <div *ngFor="let ruche of rucher.ruches; let i = index" class="rucher-card">
+        <h3 class="rucher-name">Nom de la ruche: {{ ruche.nom }}</h3>
+          <span class="delete-icon">✖</span>
+    </div>
+</div>
