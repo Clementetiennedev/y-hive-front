@@ -1,30 +1,54 @@
-# Utilisation de l'image officielle Node.js
+# Utiliser l'image officielle Node.js
 FROM node:23
 
-# Définition du répertoire de travail
+# Installer les dépendances système nécessaires
+RUN apt-get update && apt-get install -y --no-install-recommends \
+  fonts-liberation \
+  libasound2 \
+  libatk-bridge2.0-0 \
+  libatk1.0-0 \
+  libcups2 \
+  libdrm2 \
+  libgbm1 \
+  libgtk-3-0 \
+  libnspr4 \
+  libnss3 \
+  libx11-xcb1 \
+  libxcomposite1 \
+  libxdamage1 \
+  libxrandr2 \
+  xdg-utils \
+  libu2f-udev \
+  libxshmfence1 \
+  libglu1-mesa \
+  chromium \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+# Définir le dossier de travail
 WORKDIR /app
 
-# Copier uniquement les fichiers nécessaires pour améliorer le cache Docker
-COPY package.json package-lock.json ./
+# Copier package.json et package-lock.json pour installer les dépendances en premier
+COPY package*.json ./
 
-# Installation des dépendances
-RUN npm install --production
+# Installer les dépendances du projet
+RUN npm install
 
-# Copier tout le reste des fichiers
-COPY . .
-
-# Installation de TypeScript globalement
+# Installer TypeScript globalement
 RUN npm install -g typescript
 
-# Compilation du TypeScript en JavaScript
+# Copier le reste des fichiers du projet
+COPY . .
+
+# Compiler les fichiers TypeScript
 RUN npx tsc
 
-# Définition de la variable d'environnement pour Puppeteer
+# Définir l'environnement Puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 
-# Exposer le port 3000
+# Exposer le port de l'application
 EXPOSE 3000
 
-# Commande pour démarrer l'application
+# Lancer l'application
 CMD ["node", "dist/server.js"]
