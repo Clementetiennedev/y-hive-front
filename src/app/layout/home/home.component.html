@@ -1,34 +1,50 @@
-<div class="flex flex-col bg-yellow-50 items-center p-6 space-y-8 h-screen ">
+<div class="flex flex-col bg-yellow-50 items-center p-6 space-y-8 h-screen">
     <!-- Bannière -->
     <div class="w-full bg-yellow-400 text-center text-black py-10 rounded-lg shadow-lg">
-        <h1 class="text-3xl font-bold">Bonjour Louis,</h1>
+        <h1 class="text-3xl font-bold">Bonjour {{ firstName }}</h1>
         <h2 class="text-2xl">Bienvenue sur ton gestionnaire de ruche</h2>
     </div>
 
     <!-- Loader -->
-    <div *ngIf="!stats" class="flex justify-center items-center w-full h-40">
+    @if (loading) {
+    <div class="flex justify-center items-center w-full h-40">
         <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-yellow-500"></div>
     </div>
+    }
 
-    <div *ngIf="stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
+    <!-- Stats -->
+    @if (stats) {
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-4xl">
         <!-- Nombre de ruches -->
-        <div class="bg-white p-6 rounded-lg shadow-md flex flex-col text-black items-center">
-            <h2 class="text-xl font-semibold">Nombre de ruches</h2>
-            <p class="text-4xl font-bold text-yellow-500 mt-2">{{ stats.numberRuche }}</p>
-        </div>
+        <a href="/hive">
+            <div class="bg-white p-6 rounded-lg shadow-md flex flex-col text-black items-center">
+                <h2 class="text-xl font-semibold">Nombre de ruches</h2>
+                <p class="text-4xl font-bold text-yellow-500 mt-2">{{ stats.numberRuche }}</p>
+            </div>
+        </a>
 
         <!-- Nombre de ruchers -->
-        <div class="bg-white p-6 rounded-lg shadow-md flex flex-col text-black items-center">
-            <h2 class="text-xl font-semibold">Nombre de ruchers</h2>
-            <p class="text-4xl font-bold text-yellow-500 mt-2">{{ stats.numberRucher }}</p>
-        </div>
+        <a href="/apiary">
+            <div class="bg-white p-6 rounded-lg shadow-md flex flex-col text-black items-center">
+                <h2 class="text-xl font-semibold">Nombre de ruchers</h2>
+                <p class="text-4xl font-bold text-yellow-500 mt-2">17</p>
+            </div>
+        </a>
 
         <!-- Nombre d'interventions -->
         <a href="/intervention" class="text-yellow-500">
             <div class="bg-white p-6 rounded-lg shadow-md flex flex-col text-black items-center">
                 <h2 class="text-xl font-semibold">Nombre d'interventions</h2>
-                <p class="text-4xl font-bold text-yellow-500 mt-2">{{ stats.numberIntervention }}</p>
+                <p class="text-4xl font-bold text-yellow-500 mt-2">27</p>
             </div>
         </a>
     </div>
+    }
+
+    <!-- Error Message -->
+    @if (error) {
+    <div class="text-red-500">
+        {{ error }}
+    </div>
+    }
 </div>

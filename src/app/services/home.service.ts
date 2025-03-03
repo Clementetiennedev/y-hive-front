@@ -1,18 +1,29 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class HomeService {
-  private readonly apiUrl: string = 'https://67a1d689409de5ed52533d22.mockapi.io/api/stats';
+    private apiUrl: string = 'https://67a1d689409de5ed52533d22.mockapi.io/api/stats';
+    private userUrl: string = 'http://localhost/api/user';
 
-  constructor(private readonly http: HttpClient) {}
+    constructor(private http: HttpClient) { }
 
-  public getStats(): Observable<any> {
-    return this.http.get<any>(this.apiUrl)
-  }
+    private getAuthHeaders(): HttpHeaders {
+        const token = localStorage.getItem('token');
+        return new HttpHeaders({
+            'Authorization': `Bearer ${token}`
+        });
+    }
 
+    public getStats(): Observable<any> {
+        return this.http.get<any>(this.apiUrl, { headers: this.getAuthHeaders() });
+    }
+
+    public getUser(): Observable<any> {
+        return this.http.get<any>(this.userUrl, { headers: this.getAuthHeaders() });
+    }
 }
