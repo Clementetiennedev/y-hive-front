@@ -29,4 +29,4 @@ RUN npm install
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 ENV PUPPETEER_EXECUTABLE_PATH="/usr/bin/chromium"
 EXPOSE 3000
-CMD [ "node", "server.js" ]
+CMD [ "node", "server.ts" ]
