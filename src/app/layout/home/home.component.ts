@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 
 export class HomeComponent implements OnInit {
     stats: any;
+    firstName: string = '';
 
     constructor(private readonly homeService: HomeService) { }
 
@@ -21,6 +22,12 @@ export class HomeComponent implements OnInit {
             },
             (error) => {
                 console.error('Erreur lors de la récupération des articles', error);
+            }
+        );
+
+        this.homeService.getUser().subscribe(
+            (user) => {
+                this.firstName = user.first_name;
             }
         );
     }

@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-register',
@@ -17,15 +18,17 @@ import { RippleModule } from 'primeng/ripple';
 export class RegisterComponent {
     registerForm: FormGroup;
 
-    constructor(private readonly fb: FormBuilder, private readonly messageService: MessageService) {
+    constructor(private fb: FormBuilder, private messageService: MessageService, private http: HttpClient) {
         this.registerForm = this.fb.group({
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
+            first_name: ['', Validators.required],
+            last_name: ['', Validators.required],
             email: ['', [Validators.required, Validators.email, this.emailValidator]],
-            password: ['', [Validators.required, Validators.minLength(6)]],
-            confirmPassword: ['', Validators.required]
+            password: ['', [Validators.required, Validators.minLength(8)]],
+            password_confirmation: ['', Validators.required]
         }, { validators: this.passwordMatchValidator });
     }
+
+    ngOnInit() { }
 
     emailValidator(control: AbstractControl): ValidationErrors | null {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -33,14 +36,23 @@ export class RegisterComponent {
     }
 
     passwordMatchValidator(form: AbstractControl) {
-        return form.get('password')?.value === form.get('confirmPassword')?.value
+        return form.get('password')?.value === form.get('password_confirmation')?.value
             ? null : { mismatch: true };
     }
 
     onSubmit() {
         if (this.registerForm.valid) {
-            console.log('Form Submitted', this.registerForm.value);
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes bien inscrit', key: 'br', life: 3000 });
+            const apiUrl = 'http://localhost/api/register';
+            this.http.post(apiUrl, this.registerForm.value).subscribe(
+                response => {
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes bien inscrit', key: 'br', life: 3000 });
+                    window.location.href = '/login';
+                },
+                error => {
+                    console.error('Error:', error);
+                    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Une erreur est survenue lors de l\'inscription', key: 'br', life: 3000 });
+                }
+            );
         } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Veuillez remplir le formulaire correctement', key: 'br', life: 3000 });
         }

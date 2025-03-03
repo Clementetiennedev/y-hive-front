@@ -6,6 +6,8 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import "primeicons/primeicons.css";
+import { HttpClient } from '@angular/common/http';
+
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
@@ -16,8 +18,8 @@ import "primeicons/primeicons.css";
 export class LoginComponent {
     signInForm!: FormGroup;
     showPassword: boolean = false;
-
-    constructor(private readonly fb: FormBuilder, private readonly messageService: MessageService) { }
+    
+    constructor(private fb: FormBuilder, private messageService: MessageService, private http: HttpClient) { }
 
     ngOnInit(): void {
         this.signInForm = this.fb.group({
@@ -31,15 +33,36 @@ export class LoginComponent {
         return emailRegex.test(control.value) ? null : { invalidEmail: true };
     }
 
-    onSubmit() {
+    onSubmit(): void {
         if (this.signInForm.valid) {
-            const formValues = this.signInForm.value;
-            console.log('Form Values:', formValues);
-            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes désormais connecté', key: 'br', life: 3000, styleClass: 'bg-green-400' });
+            const apiUrl = 'http://localhost/api/login';
+            this.http.post<{ token: string }>(apiUrl, this.signInForm.value).subscribe(
+                (response) => {
+                    console.log('Form Submitted', response);
+                    localStorage.setItem('token', response.token);
+                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes bien connecté', key: 'br', life: 3000 });
+                    window.location.href = '/home';
+                },
+                (error) => {
+                    console.error('Error:', error);
+                    let errorMessage = 'Une erreur est survenue lors de la connexion';
+
+                    if (error.status === 422) {
+                        errorMessage = 'Email ou mot de passe incorrect';
+                    } else if (error.status === 404) {
+                        errorMessage = 'Utilisateur non trouvé';
+                    } else if (error.status === 400) {
+                        errorMessage = 'Informations de connexion invalides';
+                    }
+
+                    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: errorMessage, key: 'br', life: 3000 });
+                }
+            );
         } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please fill out the form correctly', key: 'br', life: 3000, styleClass: 'bg-red-400' });
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Veuillez remplir le formulaire correctement', key: 'br', life: 3000 });
         }
     }
+
 
     togglePasswordVisibility() {
         this.showPassword = !this.showPassword;

@@ -1,100 +1,78 @@
 <p-toast position="bottom-right" key="br"></p-toast>
 <div class="flex justify-center bg-yellow-50 items-center h-screen">
-  <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
-    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Créer un compte</h2>
+    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
+        <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Créer un compte</h2>
 
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-      <!-- First Name -->
-      <div class="mb-4">
-        <label for="firstName" class="block text-sm font-medium text-gray-700">Prénom</label>
-        <input
-          id="firstName"
-          type="text"
-          formControlName="firstName"
-          class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Prénom"
-        />
-        <p *ngIf="registerForm.get('firstName')?.invalid && registerForm.get('firstName')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Le prénom est requis.
-        </p>
-      </div>
+            <!-- First Name -->
+            <div class="mb-4">
+                <label for="first_name" class="block text-sm font-medium text-gray-700">Prénom</label>
+                <input id="first_name" type="text" formControlName="first_name"
+                    class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Prénom" />
+                <p *ngIf="registerForm.get('first_name')?.invalid && registerForm.get('first_name')?.touched"
+                    class="text-red-500 text-sm mt-1">
+                    Le prénom est requis.
+                </p>
+            </div>
 
-      <!-- Last Name -->
-      <div class="mb-4">
-        <label for="lastName" class="block text-sm font-medium text-gray-700">Nom</label>
-        <input
-          id="lastName"
-          type="text"
-          formControlName="lastName"
-          class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Nom"
-        />
-        <p *ngIf="registerForm.get('lastName')?.invalid && registerForm.get('lastName')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Le nom est requis.
-        </p>
-      </div>
+            <!-- Last Name -->
+            <div class="mb-4">
+                <label for="last_name" class="block text-sm font-medium text-gray-700">Nom</label>
+                <input id="last_name" type="text" formControlName="last_name"
+                    class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Nom" />
+                <p *ngIf="registerForm.get('last_name')?.invalid && registerForm.get('last_name')?.touched"
+                    class="text-red-500 text-sm mt-1">
+                    Le nom est requis.
+                </p>
+            </div>
 
-      <!-- Email -->
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input
-          id="email"
-          type="email"
-          formControlName="email"
-          class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Email"
-        />
-        <p *ngIf="registerForm.get('email')?.hasError('invalidEmail') && registerForm.get('email')?.touched"
-          class="text-red-500 text-sm mt-1">
-          L'email doit être valide (ex: a&#64;a.fr).
-        </p>
-      </div>
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input id="email" type="email" formControlName="email"
+                    class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Email" />
+                <p *ngIf="registerForm.get('email')?.hasError('invalidEmail') && registerForm.get('email')?.touched"
+                    class="text-red-500 text-sm mt-1">
+                    L'email doit être valide (ex: a&#64;a.fr).
+                </p>
+            </div>
 
-      <!-- Password -->
-      <div class="mb-4">
-        <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Mot de passe"
-        />
-        <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Le mot de passe doit contenir au moins 6 caractères.
-        </p>
-      </div>
+            <!-- Password -->
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+                <input id="password" type="password" formControlName="password"
+                    class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Mot de passe" />
+                <p *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+                    class="text-red-500 text-sm mt-1">
+                    Le mot de passe doit contenir au moins 8 caractères.
+                </p>
+            </div>
 
-      <!-- Confirm Password -->
-      <div class="mb-6">
-        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          formControlName="confirmPassword"
-          class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Confirmer le mot de passe"
-        />
-        <p *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched"
-          class="text-red-500 text-sm mt-1">
-          Les mots de passe ne correspondent pas.
-        </p>
-      </div>
+            <!-- Confirm Password -->
+            <div class="mb-6">
+                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmer le mot de
+                    passe</label>
+                <input id="c" type="password" formControlName="password_confirmation"
+                    class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Confirmer le mot de passe" />
+                <p *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('password_confirmation')?.touched"
+                    class="text-red-500 text-sm mt-1">
+                    Les mots de passe ne correspondent pas.
+                </p>
+            </div>
 
-      <!-- Buttons -->
-      <div class="flex flex-col gap-4">
-        <button
-          type="submit"
-          pButton
-          [disabled]="registerForm.invalid"
-          class="w-full cursor-pointer bg-primaryyellow text-white p-3 rounded-lg hover:bg-primaryorange focus:outline-none focus:ring-2 focus:ring-blue-400 border-none">
-          Créer un compte
-        </button>
-      </div>
-    </form>
-  </div>
+            <!-- Buttons -->
+            <div class="flex flex-col gap-4">
+                <button type="submit" pButton [disabled]="registerForm.invalid"
+                    class="w-full cursor-pointer bg-primaryyellow text-white p-3 rounded-lg hover:bg-primaryorange focus:outline-none focus:ring-2 focus:ring-blue-400 border-none">
+                    Créer un compte
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
