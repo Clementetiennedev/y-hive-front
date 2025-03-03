@@ -18,7 +18,6 @@ export class NavMainComponent {
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-
   goToHome() {
     this.router.navigate(['/']);
   }

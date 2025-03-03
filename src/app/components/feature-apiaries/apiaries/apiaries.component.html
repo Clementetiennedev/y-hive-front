@@ -1,11 +1,32 @@
-<button class="create-button" (click)="ajouterRucher()">Créer un rucher</button>
-<div class="ruchers-wrapper">
-    <div *ngFor="let rucher of ruchers" class="ruchers-container">
-      <h3 class="rucher-title">{{ rucher.nom }}</h3>
+<button (click)="openPopup()" class="create-button">Créer un rucher</button>
 
-      <!-- Affichage des ruches dans chaque rucher -->
-      <div *ngFor="let ruche of rucher.ruches; let i = index" class="rucher-card">
-        <h3 class="rucher-name">Nom de la ruche: {{ ruche.nom }}</h3>
-          <span class="delete-icon">✖</span>
+<div *ngIf="showPopup" class="popup">
+  <div class="popup-content">
+    <h3>Créer un nouveau rucher</h3>
+    <label>Nom du rucher:</label>
+    <input type="text" [(ngModel)]="newBeehiveName" />
+    
+    <label>Nombre de ruches:</label>
+    <input type="number" [(ngModel)]="newHiveCount" min="1" />
+    
+    <button (click)="createBeehive()">Créer</button>
+    <button (click)="closePopup()">Annuler</button>
+    <button (click)="getApiaries()">test</button>
+  </div>
+</div>
+
+<div class="beehive-container" *ngFor="let beehive of beehives">
+  <div class="beehive-card">
+    <h3>{{ beehive.name }}</h3>
+    <div class="hives-grid">
+      <div *ngFor="let hive of beehive.hives; let i = index" class="hive">
+        {{ hive }}
+        <button class="delete-hive" (click)="deleteHive(beehive, i)">X</button>
+      </div>
     </div>
+    <div class="buttons">
+      <button (click)="updateHive(beehive)" class="update">U</button>
+      <button (click)="addHive(beehive)" class="add">A</button>
+    </div>
+  </div>
 </div>
