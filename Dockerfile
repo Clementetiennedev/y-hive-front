@@ -1,25 +1,19 @@
-# Étape 1 : Build de l'application Angular
-FROM node:20 AS build
+FROM node:18.13.0 as build
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY package*.json ./
+
 RUN npm install
 
+RUN npm install -g @angular/cli
+
 COPY . .
-RUN npm run build:ssr
 
-# Étape 2 : Exécution du serveur Angular
-FROM node:20 AS runtime
+RUN ng build --configuration=production
 
-WORKDIR /app
+FROM nginx:latest
 
-COPY --from=build /app/package.json /app/package-lock.json ./
-RUN npm install --omit=dev  # Installer uniquement les dépendances de production
+COPY --from=build app/dist/aftas-angular /usr/share/nginx/html
 
-COPY --from=build /app/dist /app/dist
-COPY --from=build /app/server.js /app/server.js
-
-EXPOSE 3000
-
-CMD ["node", "server.js"]
+EXPOSE 80
