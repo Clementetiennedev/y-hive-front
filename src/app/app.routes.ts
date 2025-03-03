@@ -4,6 +4,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LandingPageComponent } from './components/feature-landing-page/landing-page/landing-page.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ApiariesComponent } from './components/feature-apiaries/apiaries/apiaries.component';
 
 
 export const routes: Routes = [
@@ -12,5 +13,6 @@ export const routes: Routes = [
     { path: 'landing', component: LandingPageComponent },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegisterComponent },
+    { path: 'apiaries', component: ApiariesComponent },
     { path: 'profile', component: ProfileComponent }
 ];
