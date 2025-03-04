@@ -1,80 +1,72 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, lastValueFrom } from 'rxjs';
 import { Apiary, Hive } from '../models/apiaries';
+import { ApiService } from './api.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class ApiariesService {
-  private baseUrl = 'https://yhive-back.saillardq.fr/api';
 
-  constructor(private http: HttpClient) {}
+	constructor(private readonly apiService: ApiService) { }
 
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token'); // Modifier si nécessaire
-    return new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    });
-  }
-  deleteHive(hiveId: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/hive/${hiveId}`, { headers: this.getHeaders() });
-  }
-  
-  updateHive(hiveId: number, updatedHive: { name: string }): Observable<Hive> {
-    return this.http.post<Hive>(`${this.baseUrl}/hive/${hiveId}`, updatedHive, { headers: this.getHeaders() });
-  }
-  deleteApiary(apiaryId: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/apiary/${apiaryId}`, { headers: this.getHeaders() });
-  }
-  
- /** 🔹 Créer un rucher avec des ruches */
- createApiaryWithHives(apiaryData: { name: string; location: string; description: string }, hiveCount: number): Observable<Apiary> {
-  return this.http.post<Apiary>(`${this.baseUrl}/apiary/store`, apiaryData, { headers: this.getHeaders() }).pipe(
-    switchMap((apiary) => {
-      if (hiveCount > 0) {
-        const hiveRequests: Observable<Hive>[] = [];
-        for (let i = 1; i <= hiveCount; i++) {
-          const hiveData = {
-            name: `Ruche ${i}`,
-            type: 'Standard',
-            installation_date: new Date().toISOString(),
-          };
-          hiveRequests.push(this.addHive(apiary.id, hiveData));
-        }
-        
-        return new Observable<Apiary>((observer) => {
-          Promise.all(hiveRequests.map((req) => req.toPromise()))
-            .then((hives) => {
-              apiary.hives = hives.filter((hive): hive is Hive => !!hive); // 🔹 Filtrer les valeurs undefined
-              observer.next(apiary);
-              observer.complete();
-            })
-            .catch((error) => observer.error(error));
-        });
-      }
+	deleteHive(hiveId: number): Observable<void> {
+		return this.apiService.delete<void>(`hive/${hiveId}`);
+	}
 
-      return new Observable<Apiary>((observer) => {
-        observer.next(apiary);
-        observer.complete();
-      });
-    })
-  );
-}
+	updateHive(hiveId: number, updatedHive: { name: string }): Observable<Hive> {
+		return this.apiService.put<Hive>(`hive/${hiveId}`, updatedHive);
+	}
+	deleteApiary(apiaryId: number): Observable<void> {
+		return this.apiService.delete<void>(`apiary/${apiaryId}`);
+	}
 
-  /** 🔹 Récupérer tous les ruchers avec leurs ruches */
-  getApiaries(): Observable<Apiary[]> {
-    return this.http.get<Apiary[]>(`${this.baseUrl}/apiary/index`, {
-      headers: this.getHeaders(),
-    });
-  }
+	/** 🔹 Créer un rucher avec des ruches */
+	createApiaryWithHives(apiaryData: { name: string; location: string; description: string }, hiveCount: number): Observable<Apiary> {
+		return this.apiService.post<Apiary>('apiary/store', apiaryData).pipe(
+			switchMap((apiary) => {
+				if (hiveCount > 0) {
+					return this.createHivesForApiary(apiary, hiveCount);
+				}
+				return this.createEmptyApiary(apiary);
+			})
+		);
+	}
 
-  /** 🔹 Ajouter une ruche dans un rucher */
-  addHive(apiaryId: number, hive: Partial<Hive>): Observable<Hive> {
-    return this.http.post<Hive>(`${this.baseUrl}/apiary/${apiaryId}/hive`, hive, {
-      headers: this.getHeaders(),
-    });
-  }
+	private createHivesForApiary(apiary: Apiary, hiveCount: number): Observable<Apiary> {
+		const hiveRequests: Observable<Hive>[] = [];
+		for (let i = 1; i <= hiveCount; i++) {
+			const hiveData = {
+				name: `Ruche ${i}`,
+				type: 'Standard',
+				installation_date: new Date().toISOString(),
+			};
+			hiveRequests.push(this.addHive(apiary.id, hiveData));
+		}
 
+		return new Observable<Apiary>((observer) => {
+			Promise.all(hiveRequests.map((req) => lastValueFrom(req)))
+				.then((hives) => {
+					apiary.hives = hives.filter((hive): hive is Hive => !!hive);
+					observer.next(apiary);
+					observer.complete();
+				})
+				.catch((error) => observer.error(error));
+		});
+	}
+
+	private createEmptyApiary(apiary: Apiary): Observable<Apiary> {
+		return new Observable<Apiary>((observer) => {
+			observer.next(apiary);
+			observer.complete();
+		});
+	}
+
+	getApiaries(): Observable<Apiary[]> {
+		return this.apiService.get<Apiary[]>('apiary/index');
+	}
+
+	addHive(apiaryId: number, hive: Partial<Hive>): Observable<Hive> {
+		return this.apiService.post<Hive>(`apiary/${apiaryId}/hive`, hive);
+	}
 }
