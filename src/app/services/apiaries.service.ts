@@ -15,7 +15,7 @@ export class ApiariesService {
 	}
 
 	updateHive(hiveId: number, updatedHive: { name: string }): Observable<Hive> {
-		return this.apiService.put<Hive>(`hive/${hiveId}`, updatedHive);
+		return this.apiService.post<Hive>(`hive/${hiveId}`, updatedHive);
 	}
 	deleteApiary(apiaryId: number): Observable<void> {
 		return this.apiService.delete<void>(`apiary/${apiaryId}`);

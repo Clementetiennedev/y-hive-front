@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { HomeService } from '../../services/home.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -14,11 +15,9 @@ export class NavMainComponent implements OnInit {
 	isLoggedIn: boolean = false;
 	firstName: string = '';
 	lastName: string = '';
-	//auth = inject(AuthService);
-	// Variable pour savoir si le menu est ouvert ou fermé
 	isDropdownOpen = false;
 
-	constructor(private readonly router: Router, private readonly homeService: HomeService) { }
+	constructor(private readonly router: Router, private authService: AuthService, private readonly homeService: HomeService) { }
 
 	scrollToSection(sectionId: string) {
 		this.router.navigate([], { fragment: sectionId }).then(() => {
@@ -29,25 +28,26 @@ export class NavMainComponent implements OnInit {
 		});
 	}
 	ngOnInit(): void {
-		this.isLoggedIn = !!localStorage.getItem('token');
-		if (this.isLoggedIn) {
-			this.homeService.getUser().subscribe({
-				next: (user) => {
-					this.firstName = user.first_name;
-					this.lastName = user.last_name;
-				},
-				error: (error) => {
-					console.error('Erreur lors de la récupération des informations utilisateur', error);
-				}
-			});
-		}
-		else {
-			console.log(this.isLoggedIn);
-			this.firstName = '';
-			this.lastName = '';
-		}
-	}
-	// Méthode pour alterner l'état du dropdown
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      this.isLoggedIn = isLoggedIn;
+      this.isLoggedIn = !!localStorage.getItem('token');
+      if (this.isLoggedIn) {
+        this.homeService.getUser().subscribe({
+          next: (user) => {
+            this.firstName = user.first_name;
+            this.lastName = user.last_name;
+          },
+          error: (error) => {
+            console.error('Erreur lors de la récupération des informations utilisateur', error);
+          }
+        });
+      }
+      else {
+        this.firstName = '';
+        this.lastName = '';
+      }  
+    });
+  }
 	toggleDropdown() {
 		this.isDropdownOpen = !this.isDropdownOpen;
 	}
