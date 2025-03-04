@@ -1,6 +1,6 @@
 <button (click)="openPopup()" class="create-button">Créer un rucher</button>
 
-<div *ngIf="showPopup" class="popup">
+<div *ngIf="showPopup" class="popup show">
   <div class="popup-content">
     <h3>Créer un nouveau rucher</h3>
     
@@ -32,7 +32,6 @@
       <div *ngFor="let hive of beehive.hives; let i = index" class="hive">
         <span *ngIf="!hive.editing">{{ hive.name }}</span>
         <input *ngIf="hive.editing" [(ngModel)]="hive.name" />
-        <span *ngIf="!hive.editing">{{ hive.type }}</span>
         <button class="delete-hive" (click)="deleteHive(beehive, i)">X</button>
         
         <button *ngIf="!hive.editing" (click)="editHive(hive)">✏️</button>
