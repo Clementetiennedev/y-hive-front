@@ -15,8 +15,8 @@
   </div>
 </div>
 
-<div class="beehive-container" *ngFor="let beehive of beehives">
-  <div class="beehive-card">
+<div class="beehive-container" >
+  <div class="beehive-card" *ngFor="let beehive of beehives">
     <h3>{{ beehive.name }}</h3>
     <div class="hives-grid">
       <div *ngFor="let hive of beehive.hives; let i = index" class="hive">
@@ -25,8 +25,8 @@
       </div>
     </div>
     <div class="buttons">
-      <button (click)="updateHive(beehive)" class="update">U</button>
-      <button (click)="addHive(beehive)" class="add">A</button>
+      <button (click)="updateHive(beehive)" class="update">Modifier</button>
+      <button (click)="addHive(beehive)" class="add">Ajouter</button>
     </div>
   </div>
 </div>
