@@ -1,46 +1,42 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { InterventionService } from '../../services/invervention.service';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
-interface Intervention {
-    id: string;
-    name: string;
-    description: string;
-    date: string;
-    localisation: string;
-}
+import { Intervention } from '../../models/intervention';
 
 @Component({
-    selector: 'app-intervention-detail',
-    imports: [CommonModule],
-    templateUrl: './intervention-detail.component.html',
-    styleUrls: ['./intervention-detail.component.css']
+	selector: 'app-intervention-detail',
+	imports: [CommonModule, RouterModule],
+	templateUrl: './intervention-detail.component.html',
+	styleUrls: ['./intervention-detail.component.css']
 })
 export class InterventionDetailComponent implements OnInit {
-    intervention!: Intervention;
-    loading: boolean = true;
-    error: string = '';
+	intervention!: Intervention;
+	loading: boolean = true;
+	error: string = '';
 
-    constructor(
-        private readonly route: ActivatedRoute,
-        private readonly interventionService: InterventionService
-    ) { }
+	constructor(
+		private readonly interventionService: InterventionService,
+		private readonly route: ActivatedRoute
+	) { }
 
-    ngOnInit() {
-        const id = this.route.snapshot.paramMap.get('id');
+	ngOnInit(): void {
+		this.route.params.subscribe(params => {
+			const id = params['id'];
+			this.getInterventionById(id);
+		});
+	}
 
-        if (id) {
-            this.interventionService.getInterventionById(id).subscribe({
-                next: (data) => {
-                    this.intervention = data;
-                    this.loading = false;
-                },
-                error: (err) => {
-                    this.error = "Erreur lors de la récupération de l'intervention.";
-                    this.loading = false;
-                }
-            });
-        }
-    }
+	getInterventionById(id: string): void {
+		this.interventionService.getInterventionById(id).subscribe({
+			next: (data) => {
+				this.intervention = data;
+				this.loading = false;
+			},
+			error: (error) => {
+				this.error = 'Erreur de récupération des données';
+				this.loading = false;
+			}
+		});
+	}
 }

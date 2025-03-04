@@ -1,14 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InterventionService } from '../../services/invervention.service';
-
-interface Intervention {
-    id: string;
-    name: string;
-    description: string;
-    date: string;
-    localisation: string;
-}
+import { Intervention } from '../../models/intervention';
 
 @Component({
     selector: 'app-interventions',
@@ -22,10 +15,13 @@ export class InterventionsComponent implements OnInit {
     constructor(private readonly interventionService: InterventionService) { }
 
     ngOnInit(): void {
-        this.interventionService.getInterventions().subscribe(data => {
-            this.interventions = data;
-        }, error => {
-            console.error("Erreur lors du chargement des interventions", error);
+        this.interventionService.getInterventions().subscribe({
+            next: (data) => {
+                this.interventions = data;
+            },
+            error: (error) => {
+                console.error("Erreur lors du chargement des interventions", error);
+            }
         });
     }
 }
