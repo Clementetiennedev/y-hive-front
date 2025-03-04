@@ -30,7 +30,7 @@
 
     <div class="hives-grid">
       <div *ngFor="let hive of beehive.hives; let i = index" class="hive">
-        <span *ngIf="!hive.editing">{{ hive.name }}</span>
+        <span *ngIf="!hive.editing">{{ hive.name }} ({{ hive.type }})</span>
         <input *ngIf="hive.editing" [(ngModel)]="hive.name" />
         <button class="delete-hive" (click)="deleteHive(beehive, i)">X</button>
         
@@ -40,7 +40,22 @@
     </div>
     
     <div class="buttons">
-      <button (click)="addHive(beehive)" class="add">Ajouter</button>
+      <button (click)="openPopup2(beehive)" class="add">Ajouter</button>
     </div>
+    
+<div *ngIf="showPopup2" class="popup show">
+  <div class="popup-content">
+    <h3>Créer une nouvelle ruche</h3>
+    
+    <label>Nom de la ruche:</label>
+    <input type="text" [(ngModel)]="newHiveName" />
+    
+    <label>Type de ruche:</label>
+    <input type="text" [(ngModel)]="newHiveType" />
+
+    <button (click)="addHive(beehive)">Créer</button>
+    <button (click)="closePopup2()">Annuler</button>
+  </div>
+</div>
   </div>
 </div>

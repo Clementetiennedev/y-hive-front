@@ -14,10 +14,14 @@ import { ApiariesService } from '../../../services/apiaries.service';
 export class ApiariesComponent {
 	apiaries: Apiary[] = [];
 	showPopup = false;
+  showPopup2 = false;
 	newBeehiveName = '';
 	newBeehiveLocation = '';
+  newHiveType = '';
+  newHiveName = '';
 	newBeehiveDescription = '';
 	newHiveCount = 1;
+  selectedApiary: Apiary | null = null;
 
 	constructor(private readonly apiaryService: ApiariesService) { }
 
@@ -35,7 +39,14 @@ export class ApiariesComponent {
 			}
 		});
 	}
+  openPopup2(apiary: Apiary): void {
+    this.selectedApiary = apiary;
+		this.showPopup2 = true;
+	}
 
+	closePopup2(): void {
+		this.showPopup2 = false;
+	}
 	openPopup(): void {
 		this.showPopup = true;
 	}
@@ -45,9 +56,18 @@ export class ApiariesComponent {
 	}
 
 	addHive(apiary: Apiary): void {
-		const newHive = { name: 'Nouvelle Ruche', type: 'Standard', installation_date: new Date().toISOString() };
+    const newHive = {
+			name: this.newHiveName,
+			type: this.newHiveType,
+      installation_date: new Date().toISOString()
+		};
 		this.apiaryService.addHive(apiary.id, newHive).subscribe({
-			next: (hive) => apiary.hives.push(hive),
+			next: (hive) => {this.selectedApiary!.hives.push(hive);
+        console.log(hive);
+        this.newHiveName ='';
+        this.newHiveType ='';
+        this.closePopup2();
+      },
 			error: (error) => console.error('Erreur lors de l’ajout d’une ruche:', error)
 		});
 	}
