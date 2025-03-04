@@ -1,25 +1,20 @@
 <div class="flex h-screen bg-yellow-50">
-    <div class="w-full bg-white p-8 rounded-xl shadow-lg">
+    <div class="w-full p-8 rounded-xl shadow-lg">
         <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Informations Personnelles</h2>
         <div class="grid grid-cols-2 gap-6">
             <div>
                 <label for="nom" class="text-primarybrown font-medium">Nom</label>
-                <input type="text" pInputText [(ngModel)]="user.lastName"
+                <input type="text" pInputText [(ngModel)]="user.last_name"
                     class="w-full mt-2 border border-gray-300 bg-white shadow-lg text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
                 <label for="prénom" class="text-primarybrown font-medium">Prénom</label>
-                <input type="text" pInputText [(ngModel)]="user.firstName"
+                <input type="text" pInputText [(ngModel)]="user.first_name"
                     class="w-full mt-2 border border-gray-300 bg-white shadow-lg text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
                 <label for="email" class="text-primarybrown font-medium">Email</label>
                 <input type="text" pInputText [(ngModel)]="user.email"
-                    class="w-full mt-2 border border-gray-300 bg-white shadow-lg text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-            </div>
-            <div>
-                <label for="password" class="text-primarybrown font-medium">Mot de passe</label>
-                <input type="text" pInputText [(ngModel)]="user.password"
                     class="w-full mt-2 border border-gray-300 bg-white shadow-lg text-black rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
             </div>
             <div>
@@ -34,7 +29,8 @@
                 Modifier son profil
             </button>
             <button pButton type="submit"
-                class="cursor-pointer font-medium bg-red-500 text-white p-3 rounded-lg shadow-lg shadow-red-500/50 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-blue-400 border-none">
+                class="cursor-pointer font-medium bg-red-500 text-white p-3 rounded-lg shadow-lg shadow-red-500/50 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-blue-400 border-none"
+                (click)="logout()">
                 Se déconnecter
             </button>
         </div>

@@ -1,0 +1,32 @@
+<button (click)="openPopup()" class="create-button">Créer un rucher</button>
+
+<div *ngIf="showPopup" class="popup">
+  <div class="popup-content">
+    <h3>Créer un nouveau rucher</h3>
+    <label>Nom du rucher:</label>
+    <input type="text" [(ngModel)]="newBeehiveName" />
+    
+    <label>Nombre de ruches:</label>
+    <input type="number" [(ngModel)]="newHiveCount" min="1" />
+    
+    <button (click)="createBeehive()">Créer</button>
+    <button (click)="closePopup()">Annuler</button>
+    <button (click)="getApiaries()">test</button>
+  </div>
+</div>
+
+<div class="beehive-container" >
+  <div class="beehive-card" *ngFor="let beehive of beehives">
+    <h3>{{ beehive.name }}</h3>
+    <div class="hives-grid">
+      <div *ngFor="let hive of beehive.hives; let i = index" class="hive">
+        {{ hive }}
+        <button class="delete-hive" (click)="deleteHive(beehive, i)">X</button>
+      </div>
+    </div>
+    <div class="buttons">
+      <button (click)="updateHive(beehive)" class="update">Modifier</button>
+      <button (click)="addHive(beehive)" class="add">Ajouter</button>
+    </div>
+  </div>
+</div>

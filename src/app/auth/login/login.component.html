@@ -1,57 +1,53 @@
 <p-toast position="bottom-right" key="br"></p-toast>
 <div class="flex justify-center bg-yellow-50 items-center h-screen">
-  <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
-    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Se connecter</h2>
+    <div class="w-full max-w-md bg-white p-8 rounded-xl shadow-lg">
+        <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">
+            Se connecter
+        </h2>
 
-    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+            <!-- Email -->
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                <input id="email" type="email" formControlName="email"
+                    class="mt-2 p-3 w-full border bg-yellow-50 text-black border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    placeholder="Veuillez rentrer un email" required email />
+                <p *ngIf="
+            signInForm.get('email')?.hasError('invalidEmail') &&
+            signInForm.get('email')?.touched
+          " class="text-red-500 text-sm mt-1">
+                    L'email doit être valide (ex: a&#64;a.fr).
+                </p>
+            </div>
 
-      <!-- Email -->
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input
-          id="email"
-          type="email"
-          formControlName="email"
-          class="mt-2 p-3 w-full border bg-yellow-50 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Veuillez rentrer un email"
-          required
-          email
-        />
-        <p *ngIf="signInForm.get('email')?.hasError('invalidEmail') && signInForm.get('email')?.touched"
-        class="text-red-500 text-sm mt-1">
-        L'email doit être valide (ex: a&#64;a.fr).
-        </p>
-      </div>
+            <!-- Password -->
+            <div
+                class="mb-6 flex items-center border bg-yellow-50 border-gray-300 rounded-lg focus-within:ring-2 focus-within:ring-blue-400">
+                <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password"
+                    class="p-3 w-full bg-yellow-50 text-black focus:outline-none rounded-lg"
+                    placeholder="Veuillez rentrer un mot de passe" required />
+                <button type="button" (click)="togglePasswordVisibility()" class="px-3 focus:outline-none">
+                    <i [ngClass]="showPassword ? 'pi pi-eye-slash' : 'pi pi-eye'" class="text-black"></i>
+                </button>
+            </div>
 
-      <!-- Password -->
-      <div class="mb-6">
-        <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-        <input
-          id="password"
-          type="password"
-          formControlName="password"
-          class="mt-2 p-3 w-full border bg-yellow-50 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Veuillez rentrer un mot de passe"
-          required
-        />
-      </div>
+            <!-- Buttons -->
+            <div class="flex flex-col gap-4">
+                <button pButton type="submit" [disabled]="signInForm.invalid"
+                    class="w-full cursor-pointer bg-primaryyellow text-white p-3 rounded-lg hover:bg-primaryorange focus:outline-none focus:ring-2 focus:ring-blue-400 border-none">
+                    Se connecter
+                </button>
+                <!-- Forgot Password Link -->
+                <div class="text-center">
+                    <a href="#" class="text-sm text-primarybrown hover:underline">Mot de passe oublié?</a>
+                </div>
 
-      <!-- Buttons -->
-      <div class="flex flex-col gap-4">
-        <button pButton type="submit" [disabled]="signInForm.invalid" class="w-full cursor-pointer bg-primaryyellow text-white p-3 rounded-lg hover:bg-primaryorange focus:outline-none focus:ring-2 focus:ring-blue-400 border-none">
-          Se connecter
-        </button>
-        <!-- Forgot Password Link -->
-        <div class="text-center">
-          <a href="#" class="text-sm text-primarybrown hover:underline">Mot de passe oublié?</a>
-        </div>
-
-        <!-- Create Account Link -->
-        <div class="text-center mt-4">
-          <span class="text-sm text-black">Vous n'avez pas de compte? </span>
-          <a href="/register" class="text-sm text-primarybrown hover:underline">Créer un compte</a>
-        </div>
-      </div>
-    </form>
-  </div>
+                <!-- Create Account Link -->
+                <div class="text-center mt-4">
+                    <span class="text-sm text-black">Vous n'avez pas de compte? </span>
+                    <a href="/register" class="text-sm text-primarybrown hover:underline">Créer un compte</a>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>

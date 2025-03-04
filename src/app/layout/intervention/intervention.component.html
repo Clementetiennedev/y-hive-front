@@ -1,0 +1,23 @@
+<div class="flex w-full bg-yellow-50">
+    <div class="w-full p-8 rounded-xl shadow-lg">
+        <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">Interventions</h2>
+        <div class="grid grid-cols-3 gap-3 p-5">
+            <div *ngFor="let intervention of interventions"
+                class="bg-white p-6 rounded-lg shadow-md flex flex-col h-full">
+                <div *ngIf="!interventions" class="flex justify-center items-center w-full h-40">
+                    <div class="animate-spin rounded-full h-32 w-32 border-t-4 border-yellow-500"></div>
+                </div>
+                <h3 class="text-black text-xl font-semibold">{{ intervention.name }}</h3>
+                <p class="text-gray-500 mt-1">📅 Le: {{ intervention.date | date:'MM/dd/yyyy à HH\'h\'mm'}}</p>
+
+                <!-- Cette div prendra tout l'espace restant -->
+                <p class="text-gray-600 mt-2 flex-grow">{{ intervention.description }}</p>
+
+                <!-- "Voir plus" toujours en bas -->
+                <div class="text-right">
+                    <a href="/intervention/{{ intervention.id }}" class="text-yellow-500">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
