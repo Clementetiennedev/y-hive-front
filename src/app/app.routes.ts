@@ -10,16 +10,15 @@ import { ProfileComponent } from './layout/profile/profile.component';
 import { HiveComponent } from './hive/hive.component';
 
 export const routes: Routes = [
-	{ path: '', component: LandingPageComponent },
-	{ path: 'home', component: HomeComponent },
-	{ path: 'landing', component: LandingPageComponent },
-	{ path: 'login', component: LoginComponent },
-	{ path: 'register', component: RegisterComponent },
-	{ path: 'profile', component: ProfileComponent },
-	{ path: 'intervention', component: InterventionsComponent },
-	{ path: 'intervention/:id', component: InterventionDetailComponent },
-	{ path: 'apiaries', component: ApiariesComponent },
-	{ path: 'profile', component: ProfileComponent },
-	{ path: 'intervention/:id', component: InterventionDetailComponent },
-	{ path: 'hive', component: HiveComponent },
+    { path: '', component: LandingPageComponent },
+    { path: 'home', component: HomeComponent },
+    { path: 'landing', component: LandingPageComponent },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'intervention', component: InterventionsComponent },
+    { path: 'intervention/:id', component: InterventionDetailComponent },
+    { path: 'apiaries', component: ApiariesComponent },
+    { path: 'intervention/:id', component: InterventionDetailComponent },
+    { path: 'hive', component: HiveComponent },
 ];

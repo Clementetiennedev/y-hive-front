@@ -131,7 +131,19 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+.delete-apiary {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 15px;
+  cursor: pointer;
+  transition: color 0.3s;
+  padding-bottom: 3em;
+}
 
+.delete-apiary:hover {
+  color: darkred;
+}
 .hive button.delete-hive {
   background-color: #f44336;
   color: white;
