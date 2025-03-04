@@ -13,7 +13,7 @@ interface Hive {
     providedIn: 'root'
 })
 export class HiveService {
-    private apiUrl = `http://localhost/api/hive/index`;
+    private apiUrl = `https://yhive-back.saillardq.fr/api/hive/index`;
 
     constructor(private http: HttpClient) { }
 

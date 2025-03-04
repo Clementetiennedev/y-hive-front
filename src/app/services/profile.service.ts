@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class ProfileService {
-    private userUrl: string = 'http://localhost/api/user';
+    private userUrl: string = 'https://yhive-back.saillardq.fr/api/user';
 
     constructor(private http: HttpClient) { }
 
@@ -23,7 +23,7 @@ export class ProfileService {
 
     public logout(): Observable<any> {
         return new Observable(observer => {
-            this.http.post<any>('http://localhost/api/logout', {}, { headers: this.getAuthHeaders() })
+            this.http.post<any>('https://yhive-back.saillardq.fr/api/logout', {}, { headers: this.getAuthHeaders() })
                 .subscribe({
                     next: (response) => {
                         localStorage.removeItem('token');

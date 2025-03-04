@@ -42,7 +42,7 @@ export class RegisterComponent {
 
     onSubmit() {
         if (this.registerForm.valid) {
-            const apiUrl = 'http://localhost/api/register';
+            const apiUrl = 'https://yhive-back.saillardq.fr/api/register';
             this.http.post(apiUrl, this.registerForm.value).subscribe(
                 response => {
                     this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes bien inscrit', key: 'br', life: 3000 });

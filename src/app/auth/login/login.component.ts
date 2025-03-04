@@ -35,7 +35,7 @@ export class LoginComponent {
 
     onSubmit(): void {
         if (this.signInForm.valid) {
-            const apiUrl = 'http://localhost/api/login';
+            const apiUrl = 'https://yhive-back.saillardq.fr/api/login';
             this.http.post<{ token: string }>(apiUrl, this.signInForm.value).subscribe(
                 (response) => {
                     console.log('Form Submitted', response);

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class HomeService {
     private apiUrl: string = 'https://67a1d689409de5ed52533d22.mockapi.io/api/stats';
-    private userUrl: string = 'http://localhost/api/user';
+    private userUrl: string = 'https://yhive-back.saillardq.fr/api/user';
 
     constructor(private http: HttpClient) { }
 

@@ -7,6 +7,8 @@ import { InterventionDetailComponent } from './layout/intervention-detail/interv
 import { ApiariesComponent } from './components/feature-apiaries/apiaries/apiaries.component';
 
 import { HiveComponent } from './hive/hive.component';
+import { HomeComponent } from './layout/home/home.component';
+import { ProfileComponent } from './layout/profile/profile.component';
 
 export const routes: Routes = [
     { path: '', component: LandingPageComponent },
@@ -18,7 +20,6 @@ export const routes: Routes = [
     { path: 'intervention', component: InterventionsComponent },
     { path: 'intervention/:id', component: InterventionDetailComponent },
     { path: 'apiaries', component: ApiariesComponent },
-    { path: 'profile', component: ProfileComponent },
     { path: 'intervention/:id', component: InterventionDetailComponent },
     { path: 'hive', component: HiveComponent },
 ];
