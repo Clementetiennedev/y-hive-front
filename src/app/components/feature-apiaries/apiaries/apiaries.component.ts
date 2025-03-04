@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { Rucher } from '../../../models/apiaries';
+import { Apiary, Hive } from '../../../models/apiaries';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiariesService } from '../../../services/apiaries.service';
-import { tap } from 'rxjs';
 
 
 @Component({
@@ -13,114 +12,91 @@ import { tap } from 'rxjs';
 	styleUrl: './apiaries.component.scss'
 })
 export class ApiariesComponent {
-	beehives: { name: string; hives: string[] }[] = [];
-	showPopup: boolean = false;
-	newBeehiveName: string = '';
-	newHiveCount: number = 1;
-	apiaries: object = {};
+	apiaries: Apiary[] = [];
+	showPopup = false;
+	newBeehiveName = '';
+	newBeehiveLocation = '';
+	newBeehiveDescription = '';
+	newHiveCount = 1;
 
-	constructor(private readonly apiariesService: ApiariesService) {
+	constructor(private readonly apiaryService: ApiariesService) { }
 
-	}
-	openPopup() {
-		this.showPopup = true;
-	}
-
-	closePopup() {
-		this.showPopup = false;
+	ngOnInit(): void {
+		this.loadApiaries();
 	}
 
-	createBeehive() {
-		if (this.newBeehiveName.trim() && this.newHiveCount > 0) {
-			this.beehives.push({
-				name: this.newBeehiveName,
-				hives: Array(this.newHiveCount).fill('ruche')
-			});
-			this.newBeehiveName = '';
-			this.newHiveCount = 1;
-			this.showPopup = false;
-		}
-	}
-
-	addHive(beehive: { hives: string[] }) {
-		if (beehive.hives.length < 12) {
-			beehive.hives.push('ruche');
-		}
-	}
-
-	deleteHive(beehive: { hives: string[] }, index: number) {
-		if (beehive.hives.length > 1) {
-			beehive.hives.splice(index, 1);
-		}
-	}
-
-	updateHive(beehive: { name: string }) {
-		const newName = prompt('Modifier le nom du rucher', beehive.name);
-		if (newName) {
-			beehive.name = newName;
-		}
-	}
-	readonly ruchers: Rucher[] = [
-		{
-			id: 1,
-			nom: "Rucher du Soleil",
-			ruches: [
-				{ id: 101, nom: "Ruche A" },
-				{ id: 102, nom: "Ruche B" },
-				{ id: 103, nom: "Ruche C" }
-			]
-		},
-		{
-			id: 2,
-			nom: "Rucher des Montagnes",
-			ruches: [
-				{ id: 201, nom: "Ruche X" },
-				{ id: 202, nom: "Ruche Y" },
-				{ id: 203, nom: "Ruche Z" }
-			]
-		},
-		{
-			id: 3,
-			nom: "Rucher de la Forêt",
-			ruches: [
-				{ id: 301, nom: "Ruche Alpha" },
-				{ id: 302, nom: "Ruche Beta" },
-				{ id: 303, nom: "Ruche Gamma" }
-			]
-		}
-	];
-
-
-	ajouterRucher() {
-		console.log("test")
-	}
-
-	supprimerRucher(rucher: { ruches: string[] }) {
-	}
-
-	ajouterRuche(rucher: { ruches: string[] }) {
-		rucher.ruches.push('ruche');
-	}
-
-	supprimerRuche(rucher: { ruches: string[] }, index: number) {
-		rucher.ruches.splice(index, 1);
-	}
-
-	modifierRucher(rucher: { ruches: string[] }) {
-		alert('Modification du rucher non implémentée !');
-	}
-
-	getApiaries() {
-		this.apiariesService.getApiaries().pipe(
-			tap(response => console.log("Réponse :", response)) // Utilisation correcte de tap()
-		).subscribe({
-			next: response => {
-				this.apiaries = response; // Stocke la réponse dans une variable
+	loadApiaries(): void {
+		this.apiaryService.getApiaries().subscribe({
+			next: (data) => {
+				this.apiaries = data;
 			},
-			error: error => {
-				console.error("Erreur lors de la récupération des ruchers :", error);
+			error: (error) => {
+				console.error('Erreur lors de la récupération des ruchers :', error);
 			}
 		});
 	}
 
+	openPopup(): void {
+		this.showPopup = true;
+	}
+
+	closePopup(): void {
+		this.showPopup = false;
+	}
+
+	addHive(apiary: Apiary): void {
+		const newHive = { name: 'Nouvelle Ruche', type: 'Standard', installation_date: new Date().toISOString() };
+		this.apiaryService.addHive(apiary.id, newHive).subscribe({
+			next: (hive) => apiary.hives.push(hive),
+			error: (error) => console.error('Erreur lors de l’ajout d’une ruche:', error)
+		});
+	}
+	deleteHive(apiary: Apiary, hiveIndex: number) {
+		const hiveId = apiary.hives[hiveIndex].id;
+
+		// Appel de la méthode de suppression avec la bonne URL
+		this.apiaryService.deleteHive(hiveId).subscribe(() => {
+			apiary.hives.splice(hiveIndex, 1); // 🔹 Supprime la ruche de la liste locale
+		});
+	}
+
+	editHive(hive: Hive) {
+		hive.editing = true; // 🔹 Active le mode édition
+	}
+
+	saveHive(hive: Hive) {
+		this.apiaryService.updateHive(hive.id, { name: hive.name }).subscribe((updatedHive) => {
+			hive.name = updatedHive.name;
+			hive.editing = false; // 🔹 Désactive le mode édition
+		});
+	}
+	deleteApiary(apiaryId: number) {
+		this.apiaryService.deleteApiary(apiaryId).subscribe(() => {
+			this.apiaries = this.apiaries.filter(apiary => apiary.id !== apiaryId); // 🔹 Supprime le rucher localement
+		});
+	}
+
+	createBeehive(): void {
+		if (!this.newBeehiveName.trim() || !this.newBeehiveLocation.trim() || !this.newBeehiveDescription.trim()) {
+			return;
+		}
+
+		const apiaryData = {
+			name: this.newBeehiveName,
+			location: this.newBeehiveLocation,
+			description: this.newBeehiveDescription,
+		};
+
+		this.apiaryService.createApiaryWithHives(apiaryData, this.newHiveCount).subscribe({
+			next: (apiary) => {
+				this.apiaries.push(apiary);
+				this.newBeehiveName = '';
+				this.newBeehiveLocation = '';
+				this.newBeehiveDescription = '';
+				this.newHiveCount = 1;
+				this.closePopup();
+			},
+			error: (error) => console.error('Erreur lors de la création du rucher:', error)
+		});
+	}
 }

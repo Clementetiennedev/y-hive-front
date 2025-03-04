@@ -19,7 +19,6 @@ export const routes: Routes = [
 	{ path: 'intervention', component: InterventionsComponent },
 	{ path: 'intervention/:id', component: InterventionDetailComponent },
 	{ path: 'apiaries', component: ApiariesComponent },
-	{ path: 'profile', component: ProfileComponent },
 	{ path: 'intervention/:id', component: InterventionDetailComponent },
 	{ path: 'hive', component: HiveComponent },
 ];
