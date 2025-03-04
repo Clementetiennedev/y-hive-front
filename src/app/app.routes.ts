@@ -8,6 +8,8 @@ import { ApiariesComponent } from './components/feature-apiaries/apiaries/apiari
 import { HomeComponent } from './layout/home/home.component';
 import { ProfileComponent } from './layout/profile/profile.component';
 import { HiveComponent } from './hive/hive.component';
+import { HomeComponent } from './layout/home/home.component';
+import { ProfileComponent } from './layout/profile/profile.component';
 
 export const routes: Routes = [
     { path: '', component: LandingPageComponent },
