@@ -10,15 +10,15 @@ export class ProfileService {
 	constructor(private readonly apiService: ApiService) { }
 
 	getProfile(): Observable<User> {
-		return this.apiService.get<User>('profile');
+		return this.apiService.get<User>('user');
 	}
 
 	updateProfile(profileData: Partial<User>): Observable<User> {
-		return this.apiService.put<User>('profile', profileData);
+		return this.apiService.put<User>('user', profileData);
 	}
 
 	deleteProfile(): Observable<void> {
-		return this.apiService.delete<void>('profile');
+		return this.apiService.delete<void>('user');
 	}
 
 	logout(): Observable<void> {

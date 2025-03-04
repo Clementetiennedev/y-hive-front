@@ -42,16 +42,16 @@ export class LoginComponent {
 			this.authService.login(this.signInForm.value).subscribe({
 				next: (response) => {
 					localStorage.setItem('token', response.token);
-					this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes désormais connecté !' });
+					this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes désormais connecté !', key: 'br', life: 6000 });
 					window.location.href = '/home';
 				},
 				error: (error) => {
 					console.error(error);
-					this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Email ou mot de passe incorrect' });
+					this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Email ou mot de passe incorrect', key: 'br', life: 6000 });
 				}
 			});
 		} else {
-			this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Une erreur est survenue lors de la connexion' });
+			this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Une erreur est survenue lors de la connexion', key: 'br', life: 6000 });
 		}
 	}
 	togglePasswordVisibility() {

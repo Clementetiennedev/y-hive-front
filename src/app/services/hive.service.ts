@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { Hive } from '../models/hive';
+
 @Injectable({
 	providedIn: 'root'
 })
@@ -10,7 +11,7 @@ export class HiveService {
 	constructor(private readonly apiService: ApiService) { }
 
 	getAllHives(): Observable<Hive[]> {
-		return this.apiService.get<Hive[]>('hive');
+		return this.apiService.get<Hive[]>('hive/index');
 	}
 
 	getHive(id: string): Observable<Hive> {

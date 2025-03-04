@@ -1,4 +1,4 @@
 export const environment = {
-    production: false,
-    apiUrl: 'https://yive-back.saillardq.fr/api'
+	production: false,
+	apiUrl: 'https://yhive-back.saillardq.fr/api'
 };

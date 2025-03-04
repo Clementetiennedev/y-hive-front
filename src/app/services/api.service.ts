@@ -1,41 +1,61 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class ApiService {
-	private readonly API_URL = environment.apiUrl;
+	private readonly API_URL = 'https://yhive-back.saillardq.fr/api';
 
 	constructor(private readonly http: HttpClient) { }
 
-	get<T>(endpoint: string, params?: any, customHeaders?: HttpHeaders, withCredentials: boolean = false): Observable<T> {
+	get<T>(endpoint: string, params?: any, headers?: HttpHeaders): Observable<T> {
 		return this.http.get<T>(`${this.API_URL}/${endpoint}`, {
-			headers: customHeaders ?? new HttpHeaders(),
-			params: this.getParams(params),
-			withCredentials: withCredentials
+			headers: this.getHeaders(headers),
+			params: this.getParams(params)
 		});
 	}
 
-	post<T>(endpoint: string, body: any, customHeaders?: HttpHeaders, withCredentials: boolean = false): Observable<T> {
+	post<T>(endpoint: string, body: any, headers?: HttpHeaders): Observable<T> {
 		return this.http.post<T>(`${this.API_URL}/${endpoint}`, body, {
-			headers: customHeaders ?? new HttpHeaders(),
-			withCredentials: withCredentials
+			headers: this.getHeaders(headers)
 		});
 	}
 
-	put<T>(endpoint: string, body: any, customHeaders?: HttpHeaders): Observable<T> {
+	put<T>(endpoint: string, body: any, headers?: HttpHeaders): Observable<T> {
 		return this.http.put<T>(`${this.API_URL}/${endpoint}`, body, {
-			headers: customHeaders ?? new HttpHeaders()
+			headers: this.getHeaders(headers)
 		});
 	}
 
-	delete<T>(endpoint: string, customHeaders?: HttpHeaders): Observable<T> {
+	delete<T>(endpoint: string, headers?: HttpHeaders): Observable<T> {
 		return this.http.delete<T>(`${this.API_URL}/${endpoint}`, {
-			headers: customHeaders ?? new HttpHeaders()
+			headers: this.getHeaders(headers)
 		});
+	}
+
+	private getHeaders(customHeaders?: HttpHeaders): HttpHeaders {
+		let headers = new HttpHeaders();
+
+		if (customHeaders) {
+			customHeaders.keys().forEach(key => {
+				const values = customHeaders.getAll(key);
+				if (values !== null) {
+					values.forEach(value => {
+						headers = headers.append(key, value);
+					});
+				}
+			});
+		}
+
+		const token = localStorage.getItem('token');
+
+		if (token) {
+			headers = headers.set('Authorization', `Bearer ${token}`);
+		}
+
+		return headers;
 	}
 
 	private getParams(params?: any): HttpParams {
