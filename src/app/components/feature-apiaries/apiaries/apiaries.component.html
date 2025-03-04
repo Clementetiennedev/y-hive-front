@@ -1,31 +1,45 @@
 <button (click)="openPopup()" class="create-button">Créer un rucher</button>
 
-<div *ngIf="showPopup" class="popup">
+<div *ngIf="showPopup" class="popup show">
   <div class="popup-content">
     <h3>Créer un nouveau rucher</h3>
+    
     <label>Nom du rucher:</label>
     <input type="text" [(ngModel)]="newBeehiveName" />
     
+    <label>Localisation:</label>
+    <input type="text" [(ngModel)]="newBeehiveLocation" />
+    
+    <label>Description:</label>
+    <input type="text" [(ngModel)]="newBeehiveDescription" />
+
     <label>Nombre de ruches:</label>
     <input type="number" [(ngModel)]="newHiveCount" min="1" />
-    
+
     <button (click)="createBeehive()">Créer</button>
     <button (click)="closePopup()">Annuler</button>
-    <button (click)="getApiaries()">test</button>
   </div>
 </div>
 
-<div class="beehive-container" >
-  <div class="beehive-card" *ngFor="let beehive of beehives">
+<div class="beehive-container">
+  <div class="beehive-card" *ngFor="let beehive of apiaries">
     <h3>{{ beehive.name }}</h3>
+    <button class="delete-apiary" (click)="deleteApiary(beehive.id)">❌ Supprimer le rucher</button>
+    <p>{{ beehive.location }}</p>
+    <p>{{ beehive.description }}</p>
+
     <div class="hives-grid">
       <div *ngFor="let hive of beehive.hives; let i = index" class="hive">
-        {{ hive }}
+        <span *ngIf="!hive.editing">{{ hive.name }}</span>
+        <input *ngIf="hive.editing" [(ngModel)]="hive.name" />
         <button class="delete-hive" (click)="deleteHive(beehive, i)">X</button>
+        
+        <button *ngIf="!hive.editing" (click)="editHive(hive)">✏️</button>
+        <button *ngIf="hive.editing" (click)="saveHive(hive)">💾</button>
       </div>
     </div>
+    
     <div class="buttons">
-      <button (click)="updateHive(beehive)" class="update">Modifier</button>
       <button (click)="addHive(beehive)" class="add">Ajouter</button>
     </div>
   </div>
