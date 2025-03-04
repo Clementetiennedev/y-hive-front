@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiService } from './api.service';
 import { User } from '../models/user';
 
@@ -21,7 +21,5 @@ export class ProfileService {
 		return this.apiService.delete<void>('user');
 	}
 
-	logout(): Observable<void> {
-		return this.apiService.post<void>('logout', {});
-	}
+	
 }

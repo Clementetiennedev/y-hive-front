@@ -6,10 +6,10 @@
         </div>
         <div class="navLinkGroup">
             <ul class="navlink">
-                <a class="link" routerLink="/home">Accueil</a>
-                <a class="link" (click)="scrollToSection('features')">Fonctionnalités</a>
-                <a class="link" (click)="scrollToSection('about-us')">A propos</a>
-                <a class="link" (click)="scrollToSection('contact-us')">Nous contacter</a>
+                <a class="link" routerLink="/home" *ngIf="isLoggedIn">Accueil</a>
+                <a class="link" (click)="scrollToSection('features')" *ngIf="!isLoggedIn">Fonctionnalités</a>
+                <a class="link" (click)="scrollToSection('about-us')" *ngIf="!isLoggedIn">A propos</a>
+                <a class="link" (click)="scrollToSection('contact-us')" *ngIf="!isLoggedIn">Nous contacter</a>
             </ul>
         </div>
         <div>
