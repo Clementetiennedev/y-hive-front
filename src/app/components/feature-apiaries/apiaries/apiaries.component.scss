@@ -103,6 +103,14 @@ label {
   width: 300px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
+  .popup.show {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .popup.show .popup-content {
+    transform: translateY(0);
+  }
 }
 
 .beehive-card:hover {
