@@ -6,65 +6,55 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { RippleModule } from 'primeng/ripple';
 import "primeicons/primeicons.css";
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
-    imports: [CommonModule, ReactiveFormsModule, ToastModule, ButtonModule, RippleModule],
-    providers: [MessageService]
+	selector: 'app-login',
+	templateUrl: './login.component.html',
+	styleUrls: ['./login.component.scss'],
+	imports: [CommonModule, ReactiveFormsModule, ToastModule, ButtonModule, RippleModule],
+	providers: [MessageService]
 })
 export class LoginComponent {
-    signInForm!: FormGroup;
-    showPassword: boolean = false;
-    
-    constructor(private fb: FormBuilder, private messageService: MessageService, private http: HttpClient) { }
+	signInForm!: FormGroup;
+	showPassword: boolean = false;
 
-    ngOnInit(): void {
-        this.signInForm = this.fb.group({
-            email: ['', [Validators.required, Validators.email, this.emailValidator]],
-            password: ['', Validators.required],
-        });
-    }
+	constructor(private readonly fb: FormBuilder, private readonly messageService: MessageService, private readonly authService: AuthService) { }
 
-    emailValidator(control: AbstractControl): ValidationErrors | null {
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return emailRegex.test(control.value) ? null : { invalidEmail: true };
-    }
+	ngOnInit(): void {
+		this.signInForm = this.fb.group({
+			email: ['', [Validators.required, Validators.email, this.emailValidator]],
+			password: ['', Validators.required],
+		});
+	}
 
-    onSubmit(): void {
-        if (this.signInForm.valid) {
-            const apiUrl = 'http://localhost/api/login';
-            this.http.post<{ token: string }>(apiUrl, this.signInForm.value).subscribe(
-                (response) => {
-                    console.log('Form Submitted', response);
-                    localStorage.setItem('token', response.token);
-                    this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes bien connecté', key: 'br', life: 3000 });
-                    window.location.href = '/home';
-                },
-                (error) => {
-                    console.error('Error:', error);
-                    let errorMessage = 'Une erreur est survenue lors de la connexion';
+	emailValidator(control: AbstractControl): ValidationErrors | null {
+		const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+		return emailRegex.test(control.value) ? null : { invalidEmail: true };
+	}
 
-                    if (error.status === 422) {
-                        errorMessage = 'Email ou mot de passe incorrect';
-                    } else if (error.status === 404) {
-                        errorMessage = 'Utilisateur non trouvé';
-                    } else if (error.status === 400) {
-                        errorMessage = 'Informations de connexion invalides';
-                    }
+	onSubmit(): void {
+		this.login();
+	}
 
-                    this.messageService.add({ severity: 'error', summary: 'Erreur', detail: errorMessage, key: 'br', life: 3000 });
-                }
-            );
-        } else {
-            this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Veuillez remplir le formulaire correctement', key: 'br', life: 3000 });
-        }
-    }
-
-
-    togglePasswordVisibility() {
-        this.showPassword = !this.showPassword;
-    }
+	login(): void {
+		if (this.signInForm.valid) {
+			this.authService.login(this.signInForm.value).subscribe({
+				next: (response) => {
+					localStorage.setItem('token', response.token);
+					this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Vous êtes désormais connecté !' });
+					window.location.href = '/home';
+				},
+				error: (error) => {
+					console.error(error);
+					this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Email ou mot de passe incorrect' });
+				}
+			});
+		} else {
+			this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Une erreur est survenue lors de la connexion' });
+		}
+	}
+	togglePasswordVisibility() {
+		this.showPassword = !this.showPassword;
+	}
 }

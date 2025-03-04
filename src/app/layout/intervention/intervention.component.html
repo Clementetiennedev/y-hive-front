@@ -7,11 +7,11 @@
                 <div *ngIf="!interventions" class="flex justify-center items-center w-full h-40">
                     <div class="animate-spin rounded-full h-32 w-32 border-t-4 border-yellow-500"></div>
                 </div>
-                <h3 class="text-black text-xl font-semibold">{{ intervention.name }}</h3>
+                <h3 class="text-black text-xl font-semibold">{{ intervention.type }}</h3>
                 <p class="text-gray-500 mt-1">📅 Le: {{ intervention.date | date:'MM/dd/yyyy à HH\'h\'mm'}}</p>
 
                 <!-- Cette div prendra tout l'espace restant -->
-                <p class="text-gray-600 mt-2 flex-grow">{{ intervention.description }}</p>
+                <p class="text-gray-600 mt-2 flex-grow">{{ intervention.observations }}</p>
 
                 <!-- "Voir plus" toujours en bas -->
                 <div class="text-right">
