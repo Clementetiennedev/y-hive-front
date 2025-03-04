@@ -7,8 +7,9 @@
         <div class="navLinkGroup">
             <ul class="navlink">
                 <a class="link" routerLink="/home">Accueil</a>
-                <a class="link" routerLink="#">A propos</a>
-                <a class="link" routerLink="#">Nous contacter</a>
+                <a class="link" (click)="scrollToSection('features')">Fonctionnalités</a>
+                <a class="link" (click)="scrollToSection('about-us')">A propos</a>
+                <a class="link" (click)="scrollToSection('contact-us')">Nous contacter</a>
             </ul>
         </div>
         <div>

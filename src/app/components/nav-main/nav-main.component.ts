@@ -3,6 +3,7 @@ import { Router, RouterModule } from '@angular/router';
 import { HomeService } from '../../services/home.service';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
     selector: 'app-nav-main',
     imports: [RouterModule, CommonModule],
@@ -19,6 +20,14 @@ export class NavMainComponent implements OnInit {
 
     constructor(private router: Router, private homeService: HomeService) { }
 
+   scrollToSection(sectionId: string) {
+    this.router.navigate([], { fragment: sectionId }).then(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  }
     ngOnInit(): void {
         this.isLoggedIn = !!localStorage.getItem('token');
         if (this.isLoggedIn) {
